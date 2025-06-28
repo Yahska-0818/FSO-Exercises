@@ -19,6 +19,7 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(0)
   const [currentVotes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const [currentMax, setMax] = useState(0)
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -33,6 +34,13 @@ const App = () => {
     let copyOfVotes = [...currentVotes]
     copyOfVotes[selected] += 1
     setVotes(copyOfVotes)
+
+    let votesSorted = copyOfVotes.toSorted()
+    const lastElement = currentVotes.length - 1
+    let maxIndex = copyOfVotes.findIndex(function(element){
+      return element === votesSorted[lastElement]
+    })
+    setMax(maxIndex)
   }
 
   return (
@@ -44,6 +52,8 @@ const App = () => {
           <Button onClick={nextAnecdote} text={"next anecdote"} />
           <Button onClick={addVote} text={"vote"} />
       </div>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[currentMax]}
     </>
   )
 }
