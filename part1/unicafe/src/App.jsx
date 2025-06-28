@@ -12,12 +12,15 @@ const Button = ({onClick,text}) => {
   )
 }
 
-const DisplayScore = ({good,neutral,bad}) => {
+const DisplayStats = ({good,neutral,bad}) => {
   return(
     <>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      <p>all {good+neutral+bad}</p>
+      <p>average {(good-bad)/(good+neutral+bad)}</p>
+      <p>positive {(good/(good+neutral+bad))*100} %</p>
     </>
   )
 }
@@ -52,7 +55,7 @@ const App = () => {
       <Button onClick={changeBad} text="Bad" />
     </div>
     <Display text={"Statistics"} />
-    <DisplayScore good={good} neutral={neutral} bad={bad} />
+    <DisplayStats good={good} neutral={neutral} bad={bad} />
     </>
   )
 }
