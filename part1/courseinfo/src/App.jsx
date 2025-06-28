@@ -35,7 +35,6 @@ const App = () => {
   const part3 = 'State of a component'
   const exercises3 = 14
 
-
   return (
     <div>
       <Header course={course}></Header>
