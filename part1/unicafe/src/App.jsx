@@ -13,16 +13,22 @@ const Button = ({onClick,text}) => {
 }
 
 const DisplayStats = ({good,neutral,bad}) => {
-  return(
-    <>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {good+neutral+bad}</p>
-      <p>average {(good-bad)/(good+neutral+bad)}</p>
-      <p>positive {(good/(good+neutral+bad))*100} %</p>
-    </>
-  )
+  if ((good+neutral+bad)>0) {
+    return(
+      <>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {good+neutral+bad}</p>
+        <p>average {(good-bad)/(good+neutral+bad)}</p>
+        <p>positive {(good/(good+neutral+bad))*100} %</p>
+      </>
+    )
+  } else {
+    return(
+      <p>No feedback given</p>
+    )
+  }
 }
 
 const App = () => {
