@@ -15,13 +15,15 @@ const Course = ({course}) => {
 }
 
 const Total = ({parts}) => {
-  let totalExercises = 0
-  parts.forEach(element => {
-    totalExercises += element.exercises
-  });
+  function getSum(total,current) {
+    return total+current.exercises
+  }
+
+  let finalSum = parts.reduce(getSum,0)
   return(
-    <h3>total of {totalExercises} exercises</h3>
+    <h3>total of {finalSum} exercises</h3>
   )
+
 }
 
 const App = () => {
