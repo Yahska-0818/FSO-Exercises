@@ -1,41 +1,6 @@
-const ListItem = ({parts}) => {
-  return (
-    <ul style={{padding:0}}>
-      {parts.map(part => <li key={part.id}>{part.name} {part.exercises}</li>)}
-    </ul>
-  )
-}
+import Course from './components/Course'
 
-const Course = ({courses}) => {
-  return (
-    <ul style={{padding:0}}>
-      {courses.map(course => 
-      <li key={course.id}>
-        <h2>{course.name}</h2>
-        <ListItem parts = {course.parts} />
-        <Total parts = {course.parts} />
-      </li>)}
-    </ul>
-  )
-}
-
-const MainDisply = ({title}) => {
-  return (
-    <h1>{title}</h1>
-  )
-}
-
-const Total = ({parts}) => {
-  function getSum(total,current) {
-    return total+current.exercises
-  }
-
-  let finalSum = parts.reduce(getSum,0)
-  return(
-    <h3>total of {finalSum} exercises</h3>
-  )
-
-}
+import MainDisplay from './components/MainDisplay'
 
 const App = () => {
   const courses = [
@@ -85,7 +50,7 @@ const App = () => {
 
   return (
     <>
-      <MainDisply title={"Web Development Curriculum"} />
+      <MainDisplay title={"Web Development Curriculum"} />
       <Course courses={courses} />
     </>
   )
