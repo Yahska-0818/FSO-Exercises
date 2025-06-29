@@ -3,7 +3,6 @@ import Names from "./components/Names"
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
 
@@ -11,16 +10,26 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const nameSubmit = (event) => {
-    event.preventDefault()
-    const newNameObject = {
-      name: newName,
-      id: newName
+  const checkExists = (array1) => {
+    let namesArray = array1.map(item => item.name)
+    if (namesArray.includes(newName)) {
+      return true
     }
-    setPersons(persons.concat(newNameObject))
-    setNewName("")
   }
 
+  const nameSubmit = (event) => {
+    event.preventDefault()
+    if (checkExists(persons)) {
+      alert(`${newName} already exists`)
+    } else {
+      const newNameObject = {
+        name: newName,
+        id: newName
+      }
+      setPersons(persons.concat(newNameObject))
+      setNewName("")
+    }
+    }
   return (
     <div>
       <h2>Phonebook</h2>
