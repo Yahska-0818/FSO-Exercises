@@ -1,16 +1,27 @@
 const ListItem = ({parts}) => {
   return (
-    <ul>
+    <ul style={{padding:0}}>
       {parts.map(part => <li key={part.id}>{part.name} {part.exercises}</li>)}
     </ul>
   )
 }
 
-const Course = ({course}) => {
+const Course = ({courses}) => {
   return (
-    <>
-      <h1>{course.name}</h1>
-    </>
+    <ul style={{padding:0}}>
+      {courses.map(course => 
+      <li key={course.id}>
+        <h2>{course.name}</h2>
+        <ListItem parts = {course.parts} />
+        <Total parts = {course.parts} />
+      </li>)}
+    </ul>
+  )
+}
+
+const MainDisply = ({title}) => {
+  return (
+    <h1>{title}</h1>
   )
 }
 
@@ -27,33 +38,55 @@ const Total = ({parts}) => {
 }
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  }
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   return (
     <>
-      <Course course={course} />
-      <ListItem parts = {course.parts} />
-      <Total parts = {course.parts} />
+      <MainDisply title={"Web Development Curriculum"} />
+      <Course courses={courses} />
     </>
   )
 }
