@@ -10,8 +10,17 @@ const Course = ({course}) => {
   return (
     <>
       <h1>{course.name}</h1>
-      <ListItem parts = {course.parts} />
     </>
+  )
+}
+
+const Total = ({parts}) => {
+  let totalExercises = 0
+  parts.forEach(element => {
+    totalExercises += element.exercises
+  });
+  return(
+    <h3>total of {totalExercises} exercises</h3>
   )
 }
 
@@ -41,6 +50,8 @@ const App = () => {
   return (
     <>
       <Course course={course} />
+      <ListItem parts = {course.parts} />
+      <Total parts = {course.parts} />
     </>
   )
 }
