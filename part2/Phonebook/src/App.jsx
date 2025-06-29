@@ -6,8 +6,14 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+  const [newNumber, setNewNumber] = useState('')
+
   const nameOnChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const numberonChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const checkExists = (array1) => {
@@ -21,13 +27,17 @@ const App = () => {
     event.preventDefault()
     if (checkExists(persons)) {
       alert(`${newName} already exists`)
+      setNewName("")
+      setNewNumber("")
     } else {
-      const newNameObject = {
+      const newPersonObject = {
         name: newName,
+        number: newNumber,
         id: newName
       }
-      setPersons(persons.concat(newNameObject))
+      setPersons(persons.concat(newPersonObject))
       setNewName("")
+      setNewNumber("")
     }
     }
   return (
@@ -36,6 +46,9 @@ const App = () => {
       <form onSubmit={nameSubmit}>
         <div>
           name: <input value={newName} onChange={nameOnChange}/>
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={numberonChange}/>
         </div>
         <div>
           <button type="submit">add</button>
