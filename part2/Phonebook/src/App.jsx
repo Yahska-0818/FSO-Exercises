@@ -8,12 +8,18 @@ const App = () => {
 
   const [newNumber, setNewNumber] = useState('')
 
+  const [newFilter, setNewFilter] = useState('')
+
   const nameOnChange = (event) => {
     setNewName(event.target.value)
   }
 
-  const numberonChange = (event) => {
+  const numberOnChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const filterOnChange = (event) => {
+    setNewFilter(event.target.value)
   }
 
   const checkExists = (array1) => {
@@ -43,12 +49,18 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <form>
+        <div>
+          filter shown with <input value={newFilter} onChange={filterOnChange} />
+        </div>
+      </form>
+      <h2>Add a new</h2>
       <form onSubmit={nameSubmit}>
         <div>
           name: <input value={newName} onChange={nameOnChange}/>
         </div>
         <div>
-          number: <input value={newNumber} onChange={numberonChange}/>
+          number: <input value={newNumber} onChange={numberOnChange}/>
         </div>
         <div>
           <button type="submit">add</button>
