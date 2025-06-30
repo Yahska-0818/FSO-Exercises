@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import Names from "./components/Names"
+import Title from './components/Title'
+import Form from './components/Form'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
 
@@ -57,25 +54,11 @@ const App = () => {
     }
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form>
-        <div>
-          filter shown with <input value={newFilter} onChange={filterOnChange} />
-        </div>
-      </form>
-      <h2>Add a new</h2>
-      <form onSubmit={nameSubmit}>
-        <div>
-          name: <input value={newName} onChange={nameOnChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={numberOnChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Title text={"Phonebook"} />
+      <Form type={"I"} text={"Filter shown with"} newValue={newFilter} onChange={filterOnChange} />
+      <Title text={"Add a new"} />
+      <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
+      <Title text={"Numbers"} />
       <Names parts={persons} />
     </div>
   )
