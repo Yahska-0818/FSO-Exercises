@@ -27,16 +27,17 @@ const App = () => {
   const nameSubmit = (event) => {
     event.preventDefault()
     if (newFilter.length>0) {
+      alert("Reset filter first")
     } else {
       let totalLength = persons.length
       if (checkExists(persons) && newNumber.length>0) {
         if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
-          let personId = (getId(persons) + 1).toString()
-          const newPersonObject = {
-          name: newName,
-          number: newNumber,
-          id: personId
-        }
+            let personId = (getId(persons) + 1).toString()
+            const newPersonObject = {
+            name: newName,
+            number: newNumber,
+            id: personId
+          }
         const resultPersons = persons.filter(person => person.name !== newName)
         personServices
                       .update(personId,newPersonObject)
