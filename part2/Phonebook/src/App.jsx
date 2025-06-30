@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Names from "./components/Names"
 import Title from './components/Title'
 import Form from './components/Form'
-import { useEffect } from 'react'
+import Button from './components/Button'
 import personServices from './services/persons'
 
 const App = () => {
-  const effect = () => {
+  const initiatePersons = () => {
     personServices
                   .getAll()
                   .then(response => {
@@ -15,7 +15,7 @@ const App = () => {
                   
   }
 
-  useEffect(effect,[])
+  useEffect(initiatePersons,[])
 
   const [persons, setPersons] = useState([])
 
@@ -72,10 +72,16 @@ const App = () => {
     }
   }
 
+  const resetFilter = () => {
+    initiatePersons()
+    setNewFilter("")
+  }
+
   return (
     <div>
       <Title text={"Phonebook"} />
       <Form type={"I"} text={"Filter shown with"} newValue={newFilter} onChange={filterOnChange} />
+      <Button onClick={resetFilter} text={"Reset button"} />
       <Title text={"Add a new"} />
       <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
