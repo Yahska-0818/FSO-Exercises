@@ -3,11 +3,16 @@ import Names from "./components/Names"
 import Title from './components/Title'
 import Form from './components/Form'
 import { useEffect } from 'react'
-import axios from 'axios'
+import personServices from './services/persons'
 
 const App = () => {
   const effect = () => {
-    axios.get('http://localhost:3001/persons').then(response=>setPersons(response.data))
+    personServices
+                  .getAll()
+                  .then(response => {
+                    setPersons(response.data)
+                  })
+                  
   }
 
   useEffect(effect,[])
@@ -19,6 +24,30 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const [newFilter, setNewFilter] = useState('')
+
+  const nameSubmit = (event) => {
+    event.preventDefault()
+    let totalLength = persons.length
+    if (checkExists(persons)) {
+      alert(`${newName} already exists`)
+      setNewName("")
+      setNewNumber("")
+    } else {
+      const newPersonObject = {
+        name: newName,
+        number: newNumber,
+        id: totalLength+1
+      }
+
+      personServices
+                    .create(newPersonObject)
+                    .then(response=>{
+                      setPersons(persons.concat(response.data))
+                      setNewName("")
+                      setNewNumber("")
+                    })
+    }
+    }
 
   const nameOnChange = (event) => {
     setNewName(event.target.value)
@@ -43,27 +72,6 @@ const App = () => {
     }
   }
 
-  const nameSubmit = (event) => {
-    event.preventDefault()
-    if (checkExists(persons)) {
-      alert(`${newName} already exists`)
-      setNewName("")
-      setNewNumber("")
-    } else {
-      const newPersonObject = {
-        name: newName,
-        number: newNumber,
-      }
-
-      axios
-          .post("http://localhost:3001/persons",newPersonObject)
-          .then(respone=>{
-            setPersons(persons.concat(respone.data))
-          })
-      setNewName("")
-      setNewNumber("")
-    }
-    }
   return (
     <div>
       <Title text={"Phonebook"} />
