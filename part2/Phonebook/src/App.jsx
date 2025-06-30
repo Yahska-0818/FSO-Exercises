@@ -36,7 +36,7 @@ const App = () => {
       const newPersonObject = {
         name: newName,
         number: newNumber,
-        id: totalLength+1
+        id: (totalLength+1).toString()
       }
 
       personServices
@@ -85,7 +85,7 @@ const App = () => {
       <Title text={"Add a new"} />
       <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
-      <Names parts={persons} />
+      <Names parts={persons} setPersonsState={setPersons}/>
     </div>
   )
 }
