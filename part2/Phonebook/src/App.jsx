@@ -12,7 +12,6 @@ const App = () => {
                   .then(response => {
                     setPersons(response.data)
                   })
-                  
   }
 
   useEffect(initiatePersons,[])
@@ -27,25 +26,44 @@ const App = () => {
 
   const nameSubmit = (event) => {
     event.preventDefault()
-    let totalLength = persons.length
-    if (checkExists(persons)) {
-      alert(`${newName} already exists`)
-      setNewName("")
-      setNewNumber("")
+    if (newFilter.length>0) {
     } else {
-      const newPersonObject = {
-        name: newName,
-        number: newNumber,
-        id: (totalLength+1).toString()
+      let totalLength = persons.length
+      if (checkExists(persons) && newNumber.length>0) {
+        if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+          let personId = (getId(persons) + 1).toString()
+          const newPersonObject = {
+          name: newName,
+          number: newNumber,
+          id: personId
+        }
+        const resultPersons = persons.filter(person => person.name !== newName)
+        personServices
+                      .update(personId,newPersonObject)
+                      .then(response=>{
+                        setPersons(resultPersons.concat(response.data))
+                        setNewName("")
+                        setNewNumber("")
+                      })
+        }
+      } else if (checkExists(persons) && newNumber.length===0) {
+        alert(`${newName} already exists`)
+        setNewName("")
+        setNewNumber("")
+      }else {
+        const newPersonObject = {
+          name: newName,
+          number: newNumber,
+          id: (totalLength+1).toString()
+        }
+        personServices
+                      .create(newPersonObject)
+                      .then(response=>{
+                        setPersons(persons.concat(response.data))
+                        setNewName("")
+                        setNewNumber("")
+                      })
       }
-
-      personServices
-                    .create(newPersonObject)
-                    .then(response=>{
-                      setPersons(persons.concat(response.data))
-                      setNewName("")
-                      setNewNumber("")
-                    })
     }
     }
 
@@ -72,6 +90,11 @@ const App = () => {
     }
   }
 
+  const getId = (array1) => {
+    let namesArray = array1.map(item => item.name)
+    return namesArray.indexOf(newName)
+  }
+
   const resetFilter = () => {
     initiatePersons()
     setNewFilter("")
@@ -81,7 +104,7 @@ const App = () => {
     <div>
       <Title text={"Phonebook"} />
       <Form type={"I"} text={"Filter shown with"} newValue={newFilter} onChange={filterOnChange} />
-      <Button onClick={resetFilter} text={"Reset button"} />
+      <Button onClick={resetFilter} text={"Reset filter"} />
       <Title text={"Add a new"} />
       <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
@@ -91,3 +114,5 @@ const App = () => {
 }
 
 export default App
+
+/*const resultPersons = parts.filter(person => person.number !== newNumber)*/
