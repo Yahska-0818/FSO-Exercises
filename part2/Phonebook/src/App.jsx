@@ -2,8 +2,16 @@ import { useState } from 'react'
 import Names from "./components/Names"
 import Title from './components/Title'
 import Form from './components/Form'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const App = () => {
+  const effect = () => {
+    axios.get('http://localhost:3001/persons').then(response=>setPersons(response.data))
+  }
+
+  useEffect(effect,[])
+
   const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
