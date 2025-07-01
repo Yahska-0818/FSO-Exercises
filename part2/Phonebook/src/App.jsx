@@ -50,6 +50,12 @@ const App = () => {
                         setNewNumber("")
                         setNotification(`Changed ${newName}'s number to ${newNumber}`)
                       })
+                      .catch(error => {
+                        setNotification(`Information of ${newName} has already been removed from server`)
+                        setTimeout(()=>{
+                          setNotification(null)
+                        },5000)
+                      })
         }
       } else if (checkExists(persons) && newNumber.length===0) {
         alert(`${newName} already exists`)
