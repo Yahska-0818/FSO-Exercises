@@ -15,9 +15,9 @@ const Names = ({parts,setPersonsState}) => {
         }
 
     return (
-        <ul style={{"padding":0}}>
+        <ul>
             {parts.map(part => 
-                <li key={part.id}>
+                <li key={part.id} className="mb-2 flex gap-3 items-center">
                     {part.name} {part.number} <Button onClick={()=>deleteButton(part.id)} text={"Delete"} />
                 </li> )}
         </ul>

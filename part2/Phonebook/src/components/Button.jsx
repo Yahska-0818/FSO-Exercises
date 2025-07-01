@@ -1,6 +1,6 @@
 const Button = (props) => {
     return(
-        <button onClick={props.onClick}>{props.text}</button>
+        <button onClick={props.onClick} className="font-base border-solid border-2 border-black rounded p-1">{props.text}</button>
     )
 }
 
