@@ -7,6 +7,9 @@ import personServices from './services/persons'
 import Notification from './components/Notification'
 
 const App = () => {
+
+  const [persons, setPersons] = useState([])
+
   const initiatePersons = () => {
     personServices
                   .getAll()
@@ -16,8 +19,6 @@ const App = () => {
   }
 
   useEffect(initiatePersons,[])
-
-  const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
 
@@ -46,9 +47,9 @@ const App = () => {
                       .update(personId,newPersonObject)
                       .then(response=>{
                         setPersons(resultPersons.concat(response.data))
-                        setNotification(`Changed ${newName}'s number to ${newNumber}`)
                         setNewName("")
                         setNewNumber("")
+                        setNotification(`Changed ${newName}'s number to ${newNumber}`)
                       })
         }
       } else if (checkExists(persons) && newNumber.length===0) {
@@ -65,9 +66,9 @@ const App = () => {
                       .create(newPersonObject)
                       .then(response=>{
                         setPersons(persons.concat(response.data))
-                        setNotification(`Added ${newName}`)
                         setNewName("")
                         setNewNumber("")
+                        setNotification(`Added ${newName}`)
                       })
       }
     }
@@ -82,12 +83,14 @@ const App = () => {
   }
 
   const filterOnChange = (event) => {
-    setNewFilter(event.target.value)
-    if (newFilter.length > 0) {
-      const result = persons.filter((person) => person.name.toUpperCase().includes(newFilter.toUpperCase()));
-      setPersons(result)
-    }
-  }
+  setNewFilter(event.target.value)
+}
+
+const filteredPersons = newFilter.length === 0
+  ? persons
+  : persons.filter(person =>
+      person.name.toUpperCase().includes(newFilter.toUpperCase())
+    )
 
   const checkExists = (array1) => {
     let namesArray = array1.map(item => item.name)
@@ -117,11 +120,9 @@ const App = () => {
       <Title text={"Add a new"} />
       <Form type={"IIS"} text1={"Name:"} text2={"Number:"} text3={"Submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
-      <Names parts={persons} setPersonsState={setPersons} setNotificationState={setNotification} />
+      <Names parts={filteredPersons} setPersonsState={setPersons} setNotificationState={setNotification} />
     </div>
   )
 }
 
 export default App
-
-/*const resultPersons = parts.filter(person => person.number !== newNumber)*/
