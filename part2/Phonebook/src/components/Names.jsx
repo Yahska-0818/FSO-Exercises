@@ -16,9 +16,9 @@ const Names = ({parts,setPersonsState,setNotiState}) => {
         }
 
     return (
-        <ul style={{"padding":0}}>
+        <ul style={{"padding":0}} className="namesList">
             {parts.map(part => 
-                <li key={part.id}>
+                <li key={part.id} className="listItem">
                     {part.name} {part.number} <Button onClick={()=>deleteButton(part.id)} text={"Delete"} />
                 </li> )}
         </ul>

@@ -115,13 +115,15 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='mainDiv'>
       <Title text={"Phonebook"} />
       <Noti message={notification} />
-      <Form type={"I"} text={"Filter shown with"} newValue={newFilter} onChange={filterOnChange} />
-      <Button onClick={resetFilter} text={"Reset filter"} />
+      <div className='filterDiv'>
+        <Form type={"I"} text={"Filter shown with:"} newValue={newFilter} onChange={filterOnChange} />
+        <Button onClick={resetFilter} text={"Reset filter"} />
+      </div>
       <Title text={"Add a new"} />
-      <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
+      <Form type={"IIS"} text1={"Name:"} text2={"Number:"} text3={"Submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
       <Names parts={filteredPersons} setPersonsState={setPersons} setNotiState={setNotification}/>
     </div>

@@ -4,7 +4,7 @@ const Noti = ({ message }) => {
   }
 
   return (
-    <div className="bg-green-600 text-white text-lg border-solid border-4 border-green-950 my-3 p-3">
+    <div className="notification">
       {message}
     </div>
   )

@@ -1,6 +1,6 @@
 const Title = ({text}) => {
     return(
-        <h2>{text}</h2>
+        <h2 className="titleStyles">{text}</h2>
     )
 }
 
