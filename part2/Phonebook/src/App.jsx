@@ -4,6 +4,7 @@ import Title from './components/Title'
 import Form from './components/Form'
 import Button from './components/Button'
 import personServices from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const initiatePersons = () => {
@@ -24,6 +25,8 @@ const App = () => {
 
   const [newFilter, setNewFilter] = useState('')
 
+  const [notification,setNotification] = useState('Updates')
+
   const nameSubmit = (event) => {
     event.preventDefault()
     if (newFilter.length>0) {
@@ -43,6 +46,7 @@ const App = () => {
                       .update(personId,newPersonObject)
                       .then(response=>{
                         setPersons(resultPersons.concat(response.data))
+                        setNotification(`Changed ${newName}'s number to ${newNumber}`)
                         setNewName("")
                         setNewNumber("")
                       })
@@ -61,6 +65,7 @@ const App = () => {
                       .create(newPersonObject)
                       .then(response=>{
                         setPersons(persons.concat(response.data))
+                        setNotification(`Added ${newName}`)
                         setNewName("")
                         setNewNumber("")
                       })
@@ -104,6 +109,7 @@ const App = () => {
   return (
     <div className='flex flex-col gap-3 m-2'>
       <Title text={"Phonebook"} />
+      <Notification message={notification} />
       <div className='flex gap-5 items-center'>
         <Form type={"I"} text={"Filter shown with:"} newValue={newFilter} onChange={filterOnChange} />
         <Button onClick={resetFilter} text={"Reset filter"} />
@@ -111,7 +117,7 @@ const App = () => {
       <Title text={"Add a new"} />
       <Form type={"IIS"} text1={"Name:"} text2={"Number:"} text3={"Submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
-      <Names parts={persons} setPersonsState={setPersons}/>
+      <Names parts={persons} setPersonsState={setPersons} setNotificationState={setNotification} />
     </div>
   )
 }

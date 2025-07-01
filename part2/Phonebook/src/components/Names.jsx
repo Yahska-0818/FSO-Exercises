@@ -1,7 +1,7 @@
 import Button from "./Button"
 import personServices from '../services/persons'
 
-const Names = ({parts,setPersonsState}) => {
+const Names = ({parts,setPersonsState,setNotificationState}) => {
     const deleteButton = (id) => {
         let personName = parts.filter(person=>person.id===id)
         if (window.confirm(`Delete ${personName[0].name}`)) {
@@ -10,6 +10,7 @@ const Names = ({parts,setPersonsState}) => {
                     .then(()=>{
                         const resultPersons = parts.filter(person => person.id !== id)
                         setPersonsState(resultPersons)
+                        setNotificationState(`Deleted ${personName[0].name}`)
                     })
         }
         }
