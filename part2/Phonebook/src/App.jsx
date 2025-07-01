@@ -4,12 +4,9 @@ import Title from './components/Title'
 import Form from './components/Form'
 import Button from './components/Button'
 import personServices from './services/persons'
-import Notification from './components/Notification'
+import Noti from './components/Noti'
 
 const App = () => {
-
-  const [persons, setPersons] = useState([])
-
   const initiatePersons = () => {
     personServices
                   .getAll()
@@ -20,13 +17,15 @@ const App = () => {
 
   useEffect(initiatePersons,[])
 
+  const [persons, setPersons] = useState([])
+
   const [newName, setNewName] = useState('')
 
   const [newNumber, setNewNumber] = useState('')
 
   const [newFilter, setNewFilter] = useState('')
 
-  const [notification,setNotification] = useState('Updates')
+  const [notification, setNotification] = useState(null)
 
   const nameSubmit = (event) => {
     event.preventDefault()
@@ -86,11 +85,11 @@ const App = () => {
   setNewFilter(event.target.value)
 }
 
-const filteredPersons = newFilter.length === 0
-  ? persons
-  : persons.filter(person =>
-      person.name.toUpperCase().includes(newFilter.toUpperCase())
-    )
+  const filteredPersons = newFilter.length === 0
+    ? persons
+    : persons.filter(person =>
+        person.name.toUpperCase().includes(newFilter.toUpperCase())
+      )
 
   const checkExists = (array1) => {
     let namesArray = array1.map(item => item.name)
@@ -110,17 +109,15 @@ const filteredPersons = newFilter.length === 0
   }
 
   return (
-    <div className='flex flex-col gap-3 m-2'>
+    <div>
       <Title text={"Phonebook"} />
-      <Notification message={notification} />
-      <div className='flex gap-5 items-center'>
-        <Form type={"I"} text={"Filter shown with:"} newValue={newFilter} onChange={filterOnChange} />
-        <Button onClick={resetFilter} text={"Reset filter"} />
-      </div>
+      <Noti message={notification} />
+      <Form type={"I"} text={"Filter shown with"} newValue={newFilter} onChange={filterOnChange} />
+      <Button onClick={resetFilter} text={"Reset filter"} />
       <Title text={"Add a new"} />
-      <Form type={"IIS"} text1={"Name:"} text2={"Number:"} text3={"Submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
+      <Form type={"IIS"} text1={"name"} text2={"number"} text3={"submit"} newValue1={newName} onChange1={nameOnChange} newValue2={newNumber} onChange2={numberOnChange} onSubmit={nameSubmit}/>
       <Title text={"Numbers"} />
-      <Names parts={filteredPersons} setPersonsState={setPersons} setNotificationState={setNotification} />
+      <Names parts={filteredPersons} setPersonsState={setPersons} setNotiState={setNotification}/>
     </div>
   )
 }
