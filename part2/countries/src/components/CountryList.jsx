@@ -14,8 +14,8 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                     <li key={index} style={{fontSize:"1.5rem", listStyle:"none"}}>
                         <h3>{country.name}</h3>
                         <div>
-                            <p>Capital {country.capital}</p>
-                            <p>Area {country.area}</p>
+                            <p>Capital: {country.capital}</p>
+                            <p>Area: {country.area}</p>
                         </div>
                         <h3>Languages</h3>
                         <ul style={{display:"flex",flexDirection:"column",gap:"1rem"}} >
@@ -36,8 +36,8 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                 <li key={index} style={{fontSize:"1.5rem", listStyle:"none"}}>
                         <h3>{country.name}</h3>
                         <div>
-                            <p>Capital {country.capital}</p>
-                            <p>Area {country.area}</p>
+                            <p>Capital: {country.capital}</p>
+                            <p>Area: {country.area}</p>
                         </div>
                         <h3>Languages</h3>
                         <ul style={{display:"flex",flexDirection:"column",gap:"1rem"}} >
@@ -68,8 +68,8 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                     <li key={index} style={{fontSize:"1.5rem", listStyle:"none"}}>
                         <h3>{country.name}</h3>
                         <div>
-                            <p>Capital {country.capital}</p>
-                            <p>Area {country.area}</p>
+                            <p>Capital: {country.capital}</p>
+                            <p>Area: {country.area}</p>
                         </div>
                         <h3>Languages</h3>
                         <ul style={{display:"flex",flexDirection:"column",gap:"1rem"}} >

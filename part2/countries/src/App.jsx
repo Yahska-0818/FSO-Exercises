@@ -5,6 +5,8 @@ import axios from "axios"
 const App = () => {
   const [countryValue,setCountryValue] = useState('')
   const [allCountries,setAllCountries] = useState([])
+
+  const api_key = import.meta.env.OPEN_WEATHER_KEY
   
   useEffect(()=>{
     axios
