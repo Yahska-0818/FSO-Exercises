@@ -10,7 +10,7 @@ sequenceDiagram
     server-->>browser: Reload page on browser
     deactivate server
 
-    Note right of browser: The server asks the browser to perform a new GET request to load the new data.
+    Note left of server: The server asks the browser to reload with a redirect and perform new GET requests to load the new data.
     Note right of browser: The browser reloads the page and makes three GET requests for main.css,main.js and data.json.
     Note right of browser: The same sequence of operations is followed as when the page is loaded for the first time but with new data in the json file.
 ```
