@@ -2,17 +2,17 @@
 sequenceDiagram
     participant server
     participant browser
-    participant spa.js
 
-    note over spa.js: Within browser but separated for understanding
+    browser->>server: GET https://studies.cs.helsinki.fi/spa/notes
+    activate server
+    server-->>browser: CSS,JS document
+    deactivate server
 
-    server->>browser: Browser receivers html,css,js file for the single page notes app
-    activate browser
-    spa.js ->> browser: redrawNotes()
-    Note over browser: Form submission
-    browser --> spa.js: New note pushed to notes array
-    Note right of browser: When the note is submitted it is pushed to the note array as a new note object
-    spa.js ->> browser: redrawNotes()
-    browser ->> server: xhttp POST request with data
-    Note left of browser: Contrary to the original web page, the server does not redirect the browser to reload and simply stores the data.
+    Note left of browser: The javascript within the page creates a notes array which handles all new notes and manipulates the DOM for any dynamic content
+    Note left of browser: The browser makes a GET request to fetch data from the database for initialization
+
+    browser->>server: GET https://studies.cs.helsinki.fi/spa/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
 ```
