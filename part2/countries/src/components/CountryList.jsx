@@ -1,3 +1,6 @@
+import axios from "axios"
+const api_key = import.meta.env.VITE_SOME_KEY
+
 const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
 
     const toggleView = (id) => {
@@ -6,8 +9,19 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
         changeCountries(currentCountries)
     }
 
+    const getCityWeather = async (cityName,cityWeather) => {
+        const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}`
+        )
+        delhiWeather.temp = response.data.main.temp
+        delhiWeather.wind = response.data.wind.speed
+        delhiWeather.icon = response.data.weather[0].icon
+    }
+
+
     if (countryValue == "INDIA" || countryValue == "SUDAN" || countryValue == "SOUTH AFRICA") {
         const countryList = countries.filter(country => country.name.toUpperCase() === countryValue)
+        let cityWeather = {}
         return (
             <ul style={{display:"flex",flexDirection:"column",gap:"1.5rem",padding:"0"}}>
                 {countryList.map((country,index) =>
@@ -23,7 +37,8 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                                 <li key={languageIndex}>{language}</li>
                             ): "N/A"}
                         </ul>
-                        <img src={country.flag} style={{marginTop:"10px"}}/>
+                        <img src={country.flag} style={{marginTop:"10px",border:"solid 2px black"}}/>
+                        <h3>Weather in {country.capital}</h3>
                     </li>
                 )}
             </ul>
