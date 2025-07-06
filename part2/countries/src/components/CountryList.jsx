@@ -1,27 +1,52 @@
 import axios from "axios"
 const api_key = import.meta.env.VITE_SOME_KEY
+import { useState,useEffect } from "react";
 
 const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
 
-    const toggleView = (id) => {
-        let currentCountries = [...allCountries]
-        currentCountries[id].show = true
-        changeCountries(currentCountries)
-    }
+    const [weather, setWeather] = useState(null);
+    const [capital, setCapital] = useState("");
 
-    const getCityWeather = async (cityName,cityWeather) => {
-        const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}`
-        )
-        delhiWeather.temp = response.data.main.temp
-        delhiWeather.wind = response.data.wind.speed
-        delhiWeather.icon = response.data.weather[0].icon
+    useEffect(() => {
+        if (countries.length === 1 && countries[0].capital !== "N/A") {
+            const cap = countries[0].capital;
+            setCapital(cap);
+        } else if (countryValue == "INDIA" || countryValue == "SUDAN" || countryValue == "SOUTH AFRICA") {
+            if(countryValue == "INDIA"){
+                setCapital("New Delhi")
+            } else if (countryValue == "SUDAN") {
+                setCapital("Khartoum")
+            } else if (countryValue == "SOUTH AFRICA") {
+                setCapital("Pretoria")
+            }
     }
+    }, [countries]);
+
+    useEffect(() => {
+        const fetchWeather = async () => {
+            if (!capital) return;
+            try {
+                const response = await axios.get(
+                    `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}`
+                );
+                const data = response.data;
+                setWeather({
+                    temp: (data.main.temp - 273.15).toFixed(2),
+                    wind: data.wind.speed,
+                    icon: data.weather[0].icon,
+                });
+            } catch (error) {
+                console.error("Error fetching weather:", error);
+                setWeather(null);
+            }
+        };
+
+        fetchWeather();
+    }, [capital]);
 
 
     if (countryValue == "INDIA" || countryValue == "SUDAN" || countryValue == "SOUTH AFRICA") {
         const countryList = countries.filter(country => country.name.toUpperCase() === countryValue)
-        let cityWeather = {}
         return (
             <ul style={{display:"flex",flexDirection:"column",gap:"1.5rem",padding:"0"}}>
                 {countryList.map((country,index) =>
@@ -39,6 +64,9 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                         </ul>
                         <img src={country.flag} style={{marginTop:"10px",border:"solid 2px black"}}/>
                         <h3>Weather in {country.capital}</h3>
+                        <p>Temperature {weather.temp} Celsius</p>
+                        <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt="" srcset="" />
+                        <p>Wind {weather.wind} m/s</p>
                     </li>
                 )}
             </ul>
@@ -93,6 +121,10 @@ const CountryList = ({countries,countryValue,allCountries,changeCountries}) => {
                             ): "N/A"}
                         </ul>
                         <img src={country.flag} style={{marginTop:"10px",border:"solid 2px black"}}/>
+                        <h3>Weather in {country.capital}</h3>
+                        <p>Temperature {weather.temp} Celsius</p>
+                        <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt="" srcset="" />
+                        <p>Wind {weather.wind} m/s</p>
                     </li>
                 )}
             </ul>
