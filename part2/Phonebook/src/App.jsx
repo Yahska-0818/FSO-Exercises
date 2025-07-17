@@ -51,6 +51,7 @@ const App = () => {
                         setNotification(`Changed ${newName}'s number to ${newNumber}`)
                       })
                       .catch(error => {
+                        console.log(error.response.data.error)
                         setNotification(`Information of ${newName} has already been removed from server`)
                         setTimeout(()=>{
                           setNotification(null)
@@ -74,6 +75,12 @@ const App = () => {
                         setNewName("")
                         setNewNumber("")
                         setNotification(`Added ${newName}`)
+                      })
+                      .catch(error => {
+                        setNotification(error.response.data.error)
+                        setTimeout(()=>{
+                          setNotification(null)
+                        },5000)
                       })
       }
     }
