@@ -15,7 +15,7 @@ const AnecdoteList = () => {
   return (
     <>
       {displayAnecdotes.map(anecdote =>
-        <div key={anecdote.id}>
+        <div key={anecdote.id} style={{display:'flex',gap:"5px"}}>
           <div>
             {anecdote.content}
           </div>
