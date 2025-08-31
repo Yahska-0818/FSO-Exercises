@@ -1,4 +1,4 @@
-interface parameters {
+export interface parameters {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -13,7 +13,7 @@ interface inputs {
   workouts: number[];
 }
 
-const calculateExercises = (hoursPerDay: number[], target: number, userExercises: parameters) => {
+export const calculateExercises = (hoursPerDay: number[], target: number, userExercises: parameters):parameters => {
   userExercises.target = target;
 
   let hoursSum: number = 0;
@@ -24,15 +24,15 @@ const calculateExercises = (hoursPerDay: number[], target: number, userExercises
       userExercises.trainingDays++;
       hoursSum += hours;
     }
-  })
+  });
 
   userExercises.average = hoursSum/userExercises.periodLength;
 
-  userExercises.periodLength == userExercises.trainingDays ? userExercises.success = true : userExercises.success = false;
+  userExercises.success = userExercises.periodLength == userExercises.trainingDays ? true : false;
 
   if (hoursSum >= userExercises.periodLength*target && userExercises.success) {
     userExercises.rating = 3;
-  } else if (hoursSum >= userExercises.periodLength*target && !userExercises.success) {
+  } else if (hoursSum >= userExercises.periodLength*target || userExercises.success) {
     userExercises.rating = 2;
   } else {
     userExercises.rating = 1;
@@ -48,7 +48,7 @@ const calculateExercises = (hoursPerDay: number[], target: number, userExercises
     break;
   }
   return userExercises;
-}
+};
 
 const userExercises: parameters = {
   periodLength: 0,
@@ -66,21 +66,28 @@ const parseArgs = (args:string[]):inputs => {
     if (!isNaN(Number(hours))) {
       return Number(hours);
     } else {
-      throw new Error("Provided value is not a number")
+      throw new Error("Provided value is not a number");
     }
-  })
+  });
   if (!isNaN(Number(args[2]))) {
     return {
         target: Number(args[2]),
         workouts: workoutHours
-    }
+    };
   } else {
-      throw new Error("Provided value is not a number")
+      throw new Error("Provided value is not a number");
+  }
+};
+
+if (require.main === module) {
+  try {
+    const { target, workouts } = parseArgs(process.argv);
+    console.log(calculateExercises(workouts, target,userExercises));
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
   }
 }
-
-const {target,workouts} = parseArgs(process.argv)
-
-console.log(calculateExercises(workouts,target,userExercises))
-
-export default "this is the default..."
