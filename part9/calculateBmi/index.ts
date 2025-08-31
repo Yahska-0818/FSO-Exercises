@@ -11,9 +11,9 @@ const bmi = calculateBmi(180,74);
 
 if (bmi < underweight) {
   console.log("Underweight range");
-} else if (bmi >= underweight || bmi < normal) {
+} else if (bmi >= underweight && bmi < normal) {
   console.log("Normal range");
-} else if (bmi >= normal || bmi < overweight) {
+} else if (bmi >= normal && bmi < overweight) {
   console.log("Overweight range");
 } else {
   console.log("Obese range")
