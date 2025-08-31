@@ -3,13 +3,21 @@ interface bmiDimensions {
   weight: number;
 }
 
-const underweight: number = 18.5;
-const normal: number = 25.0;
-const overweight: number = 30;
-
-const calculateBmi = (height: number, weight: number): number => {
+export const calculateBmi = (height: number, weight: number): number => {
   const bmi = weight/((height/100)*(height/100));
   return(bmi);
+}
+
+export const bmiVerdict = (bmi:number):string => {
+  if (bmi < 18.5) {
+    return "Underweight range";
+  } else if (bmi >= 18.5 && bmi < 25) {
+    return "Normal range";
+  } else if (bmi >= 25 && bmi < 30) {
+    return "Overweight range";
+  } else {
+    return "Obese range";
+  }
 }
 
 const parseArgs = (args:string[]):bmiDimensions => {
@@ -28,15 +36,7 @@ const parseArgs = (args:string[]):bmiDimensions => {
 try {
   const {height,weight} = parseArgs(process.argv);
   const bmi = calculateBmi(height,weight);
-  if (bmi < underweight) {
-    console.log("Underweight range");
-  } else if (bmi >= underweight && bmi < normal) {
-    console.log("Normal range");
-  } else if (bmi >= normal && bmi < overweight) {
-    console.log("Overweight range");
-  } else {
-    console.log("Obese range")
-  }
+  console.log(bmiVerdict(bmi));
 } catch (error:unknown) {
   let errorMessage = 'Something bad happened.'
   if (error instanceof Error) {

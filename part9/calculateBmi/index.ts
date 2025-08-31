@@ -1,20 +1,25 @@
-const underweight: number = 18.5;
-const normal: number = 25.0;
-const overweight: number = 30;
+import express from "express";
+import { bmiVerdict, calculateBmi } from "./calculateBmi";
 
-const calculateBmi = (height: number, weight: number): number => {
-  const bmi = weight/((height/100)*(height/100));
-  return(bmi);
-}
+const app = express();
 
-const bmi = calculateBmi(180,74);
+app.get('/hello',(_req,res)=> {
+  res.send('Hello Full Stack!');
+})
 
-if (bmi < underweight) {
-  console.log("Underweight range");
-} else if (bmi >= underweight && bmi < normal) {
-  console.log("Normal range");
-} else if (bmi >= normal && bmi < overweight) {
-  console.log("Overweight range");
-} else {
-  console.log("Obese range")
-}
+app.get('/bmi',(req,res)=> {
+  const {height, weight} = req.query;
+  if (isNaN(Number(height)) && isNaN(Number(weight))) {
+    res.send({error:"malformatted parameter"}).status(400)
+  } else {
+    const bmi = calculateBmi(Number(height),Number(weight));
+    const bmiResult = bmiVerdict(bmi)
+    res.send({height,weight,bmi:bmiResult});
+  }
+})
+
+const PORT = 3003;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+})
