@@ -1,12 +1,21 @@
-import { useDispatch } from "react-redux"
-import { createBlog } from "../reducers/blogReducer"
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { useState } from 'react'
+import {Form, Button} from 'react-bootstrap'
 
-const BlogForm = ({setShowBlogForm,setTitle,setAuthor,setUrl,title,url,author,testUser }) => {
+const BlogForm = ({ setShowBlogForm,testUser }) => {
 
   const dispatch = useDispatch()
 
-  const addBlog = async (event) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const submitBlog = (event) => {
     event.preventDefault()
+    if (testUser) {
+      return { title, author, url }
+    }
     const blogObject = {
       title: title,
       author: author,
@@ -19,46 +28,37 @@ const BlogForm = ({setShowBlogForm,setTitle,setAuthor,setUrl,title,url,author,te
     setShowBlogForm(false)
   }
 
-  const submitBlog = (event) => {
-    event.preventDefault()
-    if (testUser) {
-      addBlog({ title, author, url })
-      return { title, author, url }
-    }
-    addBlog(event)
-  }
-
   return (
-    <form onSubmit={submitBlog}>
-      <div>
-          title
-        <input
+    <Form onSubmit={submitBlog} style={{display:'flex',flexDirection:"column",gap:"2vh",alignItems:'center'}}>
+      <Form.Group>
+        <Form.Label>Title:</Form.Label>
+        <Form.Control
           type="text"
           value={title}
           name="Title"
           onChange={({ target }) => setTitle(target.value)}
         />
-      </div>
-      <div>
-          author
-        <input
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Author:</Form.Label>
+        <Form.Control
           type="author"
           value={author}
           name="Author"
           onChange={({ target }) => setAuthor(target.value)}
         />
-      </div>
-      <div>
-          url
-        <input
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Url:</Form.Label>
+        <Form.Control
           type="url"
           value={url}
           name="Url"
           onChange={({ target }) => setUrl(target.value)}
         />
-      </div>
-      <button type="submit">Save</button>
-    </form>
+      </Form.Group>
+      <Button variant="primary" type="submit">Save</Button>
+    </Form>
   )
 }
 

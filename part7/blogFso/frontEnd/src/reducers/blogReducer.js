@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 import BlogService from '../services/blogs'
-import { notificationAction } from "./notiReducer"
+import { notificationAction } from './notiReducer'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -12,20 +12,20 @@ const blogSlice = createSlice({
     setBlogs(state, action) {
       return action.payload
     },
-    setLike(state, action) {
-      const updatedBlog = action.payload;
+    updateBlog(state, action) {
+      const updatedBlog = action.payload
       return state.map(blog =>
         blog.id !== updatedBlog.id ? blog : updatedBlog
       ).sort((a, b) => b.likes - a.likes)
     },
     filterAfterDelete(state, action) {
-      const id = action.payload;
-      return state.filter(blog => blog.id !== id);
-    }
+      const id = action.payload
+      return state.filter(blog => blog.id !== id)
+    },
   }
 })
 
-export const { setBlogs, appendBlog, setLike, filterAfterDelete } = blogSlice.actions
+export const { setBlogs, appendBlog, updateBlog, filterAfterDelete } = blogSlice.actions
 
 export const initBlogs = () => {
   return async dispatch => {
@@ -50,7 +50,7 @@ export const likeBlog = (blog) => {
       likes: blog.likes + 1
     }
     const updatedBlog = await BlogService.addLike(changedBlog)
-    dispatch(setLike(updatedBlog))
+    dispatch(updateBlog(updatedBlog))
     dispatch(notificationAction(`You liked ${updatedBlog.title}`, 5))
   }
 }
@@ -62,6 +62,14 @@ export const removeBlog = (blog) => {
       dispatch(filterAfterDelete(blog.id))
       dispatch(notificationAction(`You removed ${blog.title}`, 5))
     }
+  }
+}
+
+export const addComment = (id,comment) => {
+  return async dispatch => {
+    const updatedBlog = await BlogService.commentBlog(id,comment)
+    dispatch(updateBlog(updatedBlog))
+    dispatch(notificationAction(`You comment ${comment} on ${updatedBlog.title}`, 5))
   }
 }
 
