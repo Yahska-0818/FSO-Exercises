@@ -35,11 +35,11 @@ router.post('/:id/entries',(req,res) => {
     const patientWithNewEntry = patientService.addPatientEntry(newEntry,req.params.id);
     res.json(patientWithNewEntry);
   } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      res.status(400).send({ error: error.issues });
-    } else {
-      res.status(400).send({ error: 'unknown error' });
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
     }
+    res.status(400).send(errorMessage);
   }
 });
 

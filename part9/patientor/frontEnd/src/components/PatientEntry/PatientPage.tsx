@@ -6,9 +6,10 @@ import { Typography } from "@mui/material";
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import Entry from "./Entry";
+import EntryForm from "./EntryForm";
 
 const PatientPage = () => {
-  const { id } = useParams<{ id: string }>(); // More specific typing for useParams
+  const { id } = useParams<{ id: string }>();
   const [patientData, setPatientData] = useState<Patient | null>(null);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const PatientPage = () => {
         <br />
         occupation: {patientData.occupation}
       </Typography>
+      <EntryForm setPatientData={setPatientData}></EntryForm>
       {patientData.entries.length > 0 && (
         <>
           <Typography variant="h6" style={{ marginTop: "1em" }}>
